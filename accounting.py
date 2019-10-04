@@ -71,6 +71,8 @@ def customer_payment_error(customer_file):
 
     the_file = open(customer_file)
 
+    under_count = 0 
+    over_count = 0
     for line in the_file:
 
         line = line.rstrip()
@@ -85,16 +87,28 @@ def customer_payment_error(customer_file):
 
         if cus_paid < pay_expected:
 
-          print(f"Customer number {cus_number}, {cus_name}, paid ${cus_paid:.2f},",
+          under_count += 1
+          print(f"{cus_name}, UNDERPAID ${cus_paid},",
                 f"expected amount is ${pay_expected}."
                 )
-        else: 
+        elif cus_paid > pay_expected:
 
-          print("All customers have paid correctly!")
-    return
+          over_count += 1 
+          print(f"{cus_name}, OVERPAID ${cus_paid},",
+                f"expected amount is ${pay_expected}."
+                )
+
+    print("__________")      
+    print("Number of UNDERPAID customers:")
+    print(under_count)
+    print("__________")      
+    print("Number of OVERPAID customers:")
+    print(over_count)
+    print("__________")
 
     the_file.close()
     
 
 customer_payment_error("customer-orders.txt")
+
 
